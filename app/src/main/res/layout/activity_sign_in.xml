@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_margin="20px"
     android:orientation="vertical"
-    tools:context=".screens.SignUpActivity">
+    tools:context=".screens.SignInActivity">
 
     <EditText
         android:id="@+id/editTextEmail"
@@ -24,14 +24,6 @@
         android:hint="Password"
         android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/editTextConfirmPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Confirm Password"
-        android:inputType="textPersonName" />
-
     <Button
         android:id="@+id/buttonContinue"
         android:layout_width="match_parent"
@@ -40,9 +32,9 @@
         android:text="Продолжить" />
 
     <Button
-        android:id="@+id/buttonSignIn"
+        android:id="@+id/buttonSignUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onSignInButtonClick"
-        android:text="Войти" />
+        android:onClick="onSignUpButtonClick"
+        android:text="Зарегистрироваться" />
 </LinearLayout>
