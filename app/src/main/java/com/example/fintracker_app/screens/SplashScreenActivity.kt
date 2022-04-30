@@ -23,7 +23,6 @@ class SplashScreenActivity : AppCompatActivity() {
         preferences = getSharedPreferences(appPreferencesName, Context.MODE_PRIVATE);
 
         val isLogin = preferences.contains("UserId")
-        val isOnline = isOnline(applicationContext);
 
         if(!isLogin) {
             val intent = Intent(applicationContext, SignUpActivity::class.java);
@@ -32,27 +31,5 @@ class SplashScreenActivity : AppCompatActivity() {
             val intent = Intent(applicationContext, MainActivity::class.java);
             startActivity(intent);
         }
-    }
-
-    @SuppressLint("NewApi")
-    fun isOnline(context: Context): Boolean {
-        val connectivityManager =
-            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val capabilities =
-            connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
-        if (capabilities != null) {
-            when {
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> {
-                    return true
-                }
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> {
-                    return true
-                }
-                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> {
-                    return true
-                }
-            }
-        }
-        return false
     }
 }

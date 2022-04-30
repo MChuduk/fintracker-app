@@ -13,6 +13,7 @@ import com.example.fintracker_app.R
 import com.example.fintracker_app.appPreferencesName
 import com.example.fintracker_app.data.repository.Repository
 import com.example.fintracker_app.model.ErrorModel
+import com.example.fintracker_app.services.CurrencyService
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
@@ -22,12 +23,14 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var password: EditText;
 
     private lateinit var preferences: SharedPreferences;
+    private lateinit var currencyService: CurrencyService;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
         preferences = getSharedPreferences(appPreferencesName, Context.MODE_PRIVATE);
         findViews();
+        initServices();
     }
 
     fun onContinueButtonClick(view: View) {
@@ -53,6 +56,8 @@ class SignInActivity : AppCompatActivity() {
                     editor.putString("UserToken", data.token);
                     editor.apply();
 
+                    currencyService.updateExchangeRates();
+
                     val intent = Intent(applicationContext, MainActivity::class.java);
                     startActivity(intent);
 
@@ -72,6 +77,10 @@ class SignInActivity : AppCompatActivity() {
     private fun findViews() {
         email = findViewById(R.id.editTextEmail);
         password = findViewById(R.id.editTextPassword);
+    }
+
+    private fun initServices() {
+        currencyService = CurrencyService(applicationContext);
     }
 
     private fun showMessage(message: String?){

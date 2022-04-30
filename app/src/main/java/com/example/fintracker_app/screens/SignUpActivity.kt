@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.fintracker_app.R
 import com.example.fintracker_app.data.repository.Repository
 import com.example.fintracker_app.model.ErrorModel
+import com.example.fintracker_app.services.CurrencyService
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 

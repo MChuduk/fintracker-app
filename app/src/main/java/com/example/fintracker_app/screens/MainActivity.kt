@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import com.example.fintracker_app.R
@@ -21,7 +23,17 @@ class MainActivity : AppCompatActivity() {
         setUserInfo();
     }
 
-    fun onExitButtonClick(view: View) { exit() }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.action_bar_menu, menu);
+        return true;
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.ExitItem -> exit();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private fun exit() {
         val preferences = getSharedPreferences(appPreferencesName, Context.MODE_PRIVATE);
