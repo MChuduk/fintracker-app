@@ -41,10 +41,18 @@ class WalletsListActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.CreateWalletItem -> onCreateWalletItemSelected();
-            R.id.DeleteWalletItem -> onDeleteWalletItemSelected();
+            R.id.CreateItem -> onCreateWalletItemSelected();
+            R.id.DeleteItem -> onDeleteWalletItemSelected();
+            R.id.EditItem -> onEditWalletItemSelected();
+            R.id.BackItem -> onBackItemSelected();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+        menu?.findItem(R.id.EditItem)!!.isEnabled = (getSelectedItems().count() == 1);
+        menu.findItem(R.id.DeleteItem)!!.isEnabled = (getSelectedItems().count() >= 1);
+        return true;
     }
 
     private fun showWalletsList() {
@@ -59,19 +67,37 @@ class WalletsListActivity : AppCompatActivity() {
         startActivity(intent);
     }
 
+    private fun onEditWalletItemSelected() {
+        val selectedWallet = getSelectedItems()[0];
+        val intent = Intent(applicationContext, EditWalletActivity::class.java);
+        intent.putExtra("SelectedWallet", selectedWallet);
+        startActivity(intent);
+    }
+
     private fun onDeleteWalletItemSelected() {
-        val notSelectedWallets: MutableList<WalletModel> = mutableListOf();
+        val items = getSelectedItems();
+        for(item in items) {
+            walletsService.deleteById(item.id);
+        }
+        walletsList = walletsService.getAll();
+        showWalletsList();
+    }
+
+    private fun getSelectedItems(): MutableList<WalletModel> {
+        val items: MutableList<WalletModel> = mutableListOf();
         for (index in walletsList.indices) {
             val view = recyclerViewWallets.layoutManager?.findViewByPosition(index);
             val isSelected = view?.findViewById<CheckBox>(R.id.checkBoxWalletSelected)?.isChecked;
-            if(isSelected == false) {
-                notSelectedWallets.add(walletsList[index]);
-            } else {
-                walletsService.deleteById(walletsList[index].id);
+            if(isSelected == true) {
+                items.add(walletsList[index]);
             }
         }
-        walletsList = notSelectedWallets;
-        showWalletsList();
+        return items;
+    }
+
+    private fun onBackItemSelected() {
+        val intent = Intent(applicationContext, MainActivity::class.java);
+        startActivity(intent);
     }
 
     private fun initServices() {

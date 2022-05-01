@@ -13,6 +13,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
+            android:name=".screens.EditWalletActivity"
+            android:exported="false" />
+        <activity
             android:name=".screens.CreateWalletActivity"
             android:exported="false" />
         <activity
@@ -38,9 +41,9 @@
             android:name=".screens.MainActivity"
             android:exported="true" />
     </application>
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

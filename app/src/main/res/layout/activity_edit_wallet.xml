@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:layout_margin="20px"
     android:orientation="vertical"
-    tools:context=".screens.CreateWalletActivity">
+    tools:context=".screens.EditWalletActivity">
 
     <EditText
         android:id="@+id/editTextWalletName"
@@ -17,7 +17,7 @@
         android:inputType="textPersonName" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Валюта" />
@@ -28,9 +28,9 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/buttonCreateWallet"
+        android:id="@+id/buttonEditWallet"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onCreateWalletButtonClick"
-        android:text="Создать" />
+        android:onClick="onEditButtonClick"
+        android:text="Изменить" />
 </LinearLayout>

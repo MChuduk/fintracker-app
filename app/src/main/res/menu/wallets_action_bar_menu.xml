@@ -2,9 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/CreateWalletItem"
+        android:id="@+id/CreateItem"
         android:title="Создать" />
     <item
-        android:id="@+id/DeleteWalletItem"
+        android:id="@+id/DeleteItem"
         android:title="Удалить" />
+    <item
+        android:id="@+id/EditItem"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:title="Изменить" />
+    <item
+        android:id="@+id/BackItem"
+        android:title="Назад" />
 </menu>

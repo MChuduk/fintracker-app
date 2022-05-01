@@ -76,6 +76,30 @@ class CurrencyService(val context: Context) {
         return currency;
     }
 
+    fun findById(idInput: Int): CurrencyModel? {
+        val db = dbHelper.readableDatabase;
+        var cursor : Cursor? = null;
+        var currency: CurrencyModel? = null;
+        try {
+            val selection = "id = ?";
+            val selectionArgs = arrayOf(idInput.toString());
+            cursor = db.query(TABLE_CURRENCY, null, selection, selectionArgs, null, null, null);
+
+            if(cursor.moveToFirst()) {
+                val id = cursor.getValueInteger(context, CURRENCY_ID);
+                val name = cursor.getValueString(context, CURRENCY_NAME);
+                val exchangeRate = cursor.getValueFloat(context, CURRENCY_EXCHANGE_RATE);
+                currency = CurrencyModel(id, name, exchangeRate)
+            }
+        } catch (error: Exception) {
+            showMessage(context, error.message.toString());
+        } finally {
+            cursor?.close();
+            db.close();
+        }
+        return currency;
+    }
+
     fun getAll(): MutableList<CurrencyModel> {
         val db = dbHelper.readableDatabase;
         var cursor : Cursor? = null;

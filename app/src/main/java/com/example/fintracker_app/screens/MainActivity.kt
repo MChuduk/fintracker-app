@@ -1,5 +1,6 @@
 package com.example.fintracker_app.screens
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -11,6 +12,12 @@ import android.view.View
 import android.widget.TextView
 import com.example.fintracker_app.R
 import com.example.fintracker_app.appPreferencesName
+import android.widget.Toast
+
+import android.content.DialogInterface
+
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
-            R.id.ExitItem -> exit();
+            R.id.ExitItem -> showExitDialog();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -38,6 +45,16 @@ class MainActivity : AppCompatActivity() {
     fun onWalletButtonClick(view: View) {
         val intent = Intent(applicationContext, WalletsListActivity::class.java);
         startActivity(intent);
+    }
+
+    private fun showExitDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Выход")
+            .setMessage("Вы действительно хотите выйти?")
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setPositiveButton("Да") { _, _ -> exit() }
+            .setNegativeButton("Нет", null)
+            .show()
     }
 
     private fun exit() {

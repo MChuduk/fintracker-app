@@ -5,10 +5,25 @@ import android.content.Context
 import android.database.Cursor
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.widget.Spinner
 import android.widget.Toast
+import android.widget.SpinnerAdapter
+
+
+
 
 fun showMessage(context: Context, message: String?){
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+}
+
+fun Spinner.selectItemByValue(value: String) {
+    val adapter: SpinnerAdapter = this.adapter;
+    for (position in 0 until adapter.count) {
+        if ((adapter.getItem(position) as String) == value) {
+            this.setSelection(position)
+            break;
+        }
+    }
 }
 
 fun Cursor.getValueInteger(context: Context, columnName : String) : Int {

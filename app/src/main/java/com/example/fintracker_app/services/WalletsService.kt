@@ -52,6 +52,25 @@ class WalletsService(val context: Context) {
         return walletsList;
     }
 
+    fun edit(id: Int, newName: String, newCurrencyId: Int, newUserId: Int): WalletModel? {
+        val db = dbHelper.writableDatabase;
+        return try {
+            val selection = "id = ?";
+            val selectionArgs = arrayOf(id.toString());
+            val values = ContentValues();
+            values.put(WALLET_NAME, newName);
+            values.put(WALLET_CURRENCY, newCurrencyId);
+            values.put(WALLET_USER, newUserId);
+            db.update(TABLE_WALLETS, values, selection, selectionArgs);
+            WalletModel(id, newName, newCurrencyId, newUserId);
+        } catch (error: Exception) {
+            showMessage(context, error.message.toString());
+            null;
+        } finally {
+            db.close();
+        }
+    }
+
     fun deleteById(id: Int): Boolean {
         val db = dbHelper.writableDatabase;
         return try {
