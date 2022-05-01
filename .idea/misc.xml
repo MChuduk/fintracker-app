@@ -7,9 +7,13 @@
         <entry key="..\:/course-project/fintracker-app/app/src/main/res/layout/activity_create_wallet.xml" value="0.275" />
         <entry key="..\:/course-project/fintracker-app/app/src/main/res/layout/activity_edit_wallet.xml" value="0.275" />
         <entry key="..\:/course-project/fintracker-app/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/course-project/fintracker-app/app/src/main/res/layout/activity_model_list.xml" value="0.275" />
         <entry key="..\:/course-project/fintracker-app/app/src/main/res/layout/activity_sign_in.xml" value="0.264" />
         <entry key="..\:/course-project/fintracker-app/app/src/main/res/layout/activity_sign_up.xml" value="0.264" />
         <entry key="..\:/course-project/fintracker-app/app/src/main/res/layout/activity_splash_screen.xml" value="0.17135416666666667" />
+        <entry key="..\:/course-project/fintracker-app/app/src/main/res/layout/activity_transaction_categories.xml" value="0.275" />
+        <entry key="..\:/course-project/fintracker-app/app/src/main/res/layout/activity_upsert_wallet.xml" value="0.275" />
+        <entry key="..\:/course-project/fintracker-app/app/src/main/res/layout/activity_wallet_upsert.xml" value="0.275" />
         <entry key="..\:/course-project/fintracker-app/app/src/main/res/layout/activity_wallets_list.xml" value="0.275" />
         <entry key="..\:/course-project/fintracker-app/app/src/main/res/layout/fragment_root.xml" value="0.1765625" />
         <entry key="..\:/course-project/fintracker-app/app/src/main/res/layout/fragment_splash.xml" value="0.2015625" />

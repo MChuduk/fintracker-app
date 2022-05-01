@@ -1,4 +1,4 @@
-package com.example.fintracker_app.screens
+package com.example.fintracker_app.screens.wallets
 
 import android.content.Context
 import android.content.Intent
@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import com.example.fintracker_app.R
@@ -16,49 +17,45 @@ import com.example.fintracker_app.services.CurrencyService
 import com.example.fintracker_app.services.WalletsService
 import com.example.fintracker_app.services.selectItemByValue
 
-class EditWalletActivity : AppCompatActivity() {
+class WalletUpsertActivity : AppCompatActivity() {
 
     private lateinit var walletName: EditText;
     private lateinit var currencySpinner: Spinner;
-
-    private lateinit var selectedWallet: WalletModel;
+    private lateinit var buttonConfirm: Button;
 
     private lateinit var preferences: SharedPreferences;
     private lateinit var currencyService: CurrencyService;
     private lateinit var walletsService: WalletsService;
+    private lateinit var selectedWallet: WalletModel;
+    private lateinit var upsertMode: String;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_wallet)
+        setContentView(R.layout.activity_wallet_upsert);
         preferences = getSharedPreferences(appPreferencesName, Context.MODE_PRIVATE);
         findViews();
         initServices();
+        setUpsertMode();
         setCurrencySpinnerValues();
         setSelectedWallet();
     }
 
-    fun onEditButtonClick(view: View) { editWallet() }
+    fun onConfirmButtonClick (view: View) { confirm(); }
 
-    private fun editWallet() {
+    private fun confirm() {
         val name = walletName.text.toString();
         val currencyId = currencyService.findByName(currencySpinner.selectedItem.toString())?.id;
         val userId = preferences.getInt("UserId", -1);
 
-        val wallet = walletsService.edit(selectedWallet.id, name, currencyId!!, userId);
-        if(wallet !== null) {
+        var wallet: WalletModel?;
+        if(upsertMode == "Insert") {
+            wallet = walletsService.create(name, currencyId!!, userId);
+        } else {
+            wallet = walletsService.edit(selectedWallet.id, name, currencyId!!, userId);
+        }
+        if(wallet != null) {
             val intent = Intent(applicationContext, WalletsListActivity::class.java);
             startActivity(intent);
-        }
-    }
-
-    private fun setSelectedWallet() {
-        if(intent.hasExtra("SelectedWallet")) {
-            selectedWallet = intent.getSerializableExtra("SelectedWallet") as WalletModel;
-
-            walletName.setText(selectedWallet.name);
-
-            val currencyName = currencyService.findById(selectedWallet.currency_id)?.name;
-            currencySpinner.selectItemByValue(currencyName!!);
         }
     }
 
@@ -76,8 +73,31 @@ class EditWalletActivity : AppCompatActivity() {
         walletsService = WalletsService(applicationContext);
     }
 
+    private fun setUpsertMode() {
+        if(intent.hasExtra("UpsertMode")) {
+            upsertMode = intent.getStringExtra("UpsertMode")!!;
+            if(upsertMode == "Insert") {
+                buttonConfirm.text = "Создать";
+            } else {
+                buttonConfirm.text = "Изменить";
+            }
+        }
+    }
+
+    private fun setSelectedWallet() {
+        if(intent.hasExtra("SelectedWallet")) {
+            selectedWallet = intent.getSerializableExtra("SelectedWallet") as WalletModel;
+
+            walletName.setText(selectedWallet.name);
+
+            val currencyName = currencyService.findById(selectedWallet.currency_id)?.name;
+            currencySpinner.selectItemByValue(currencyName!!);
+        }
+    }
+
     private fun findViews() {
         walletName = findViewById(R.id.editTextWalletName);
         currencySpinner = findViewById(R.id.spinnerCurrency);
+        buttonConfirm = findViewById(R.id.buttonConfirm);
     }
 }

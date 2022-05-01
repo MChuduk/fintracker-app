@@ -13,13 +13,22 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
         <activity
-            android:name=".screens.EditWalletActivity"
+            android:name=".screens.wallets.WalletUpsertActivity"
             android:exported="false" />
         <activity
-            android:name=".screens.CreateWalletActivity"
+            android:name=".screens.base.ModelListActivity"
             android:exported="false" />
         <activity
-            android:name=".screens.WalletsListActivity"
+            android:name=".screens.transaction_categories.TransactionCategoriesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.wallets.WalletEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.wallets.WalletCreateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.wallets.WalletsListActivity"
             android:exported="false" />
         <activity
             android:name=".screens.SignInActivity"
@@ -41,9 +50,9 @@
             android:name=".screens.MainActivity"
             android:exported="true" />
     </application>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

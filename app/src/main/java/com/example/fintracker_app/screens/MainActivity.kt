@@ -3,7 +3,6 @@ package com.example.fintracker_app.screens
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -12,11 +11,9 @@ import android.view.View
 import android.widget.TextView
 import com.example.fintracker_app.R
 import com.example.fintracker_app.appPreferencesName
-import android.widget.Toast
+import com.example.fintracker_app.screens.transaction_categories.TransactionCategoriesActivity
 
-import android.content.DialogInterface
-
-
+import com.example.fintracker_app.screens.wallets.WalletsListActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -44,6 +41,11 @@ class MainActivity : AppCompatActivity() {
 
     fun onWalletButtonClick(view: View) {
         val intent = Intent(applicationContext, WalletsListActivity::class.java);
+        startActivity(intent);
+    }
+
+    fun onTransactionCategoriesButtonClick(view: View) {
+        val intent = Intent(applicationContext, TransactionCategoriesActivity::class.java);
         startActivity(intent);
     }
 

@@ -4,9 +4,10 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import com.example.fintracker_app.model.WalletModel
+import com.example.fintracker_app.services.base.CrudService
 import com.example.fintracker_app.services.database.*
 
-class WalletsService(val context: Context) {
+class WalletsService(val context: Context): CrudService<WalletModel> {
 
     private val dbHelper = DatabaseHelper(context);
 
@@ -27,7 +28,7 @@ class WalletsService(val context: Context) {
         }
     }
 
-    fun getAll(): MutableList<WalletModel> {
+    override fun getAll(): MutableList<WalletModel> {
         val db = dbHelper.readableDatabase;
         var cursor : Cursor? = null;
         val walletsList = mutableListOf<WalletModel>();
@@ -71,7 +72,7 @@ class WalletsService(val context: Context) {
         }
     }
 
-    fun deleteById(id: Int): Boolean {
+    override fun deleteById(id: Int): Boolean {
         val db = dbHelper.writableDatabase;
         return try {
             val selection = "id = ?";

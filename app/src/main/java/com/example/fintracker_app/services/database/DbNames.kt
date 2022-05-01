@@ -10,3 +10,12 @@ const val WALLET_ID = "id";
 const val WALLET_NAME = "name";
 const val WALLET_CURRENCY = "currency_id";
 const val WALLET_USER = "user_id";
+
+const val TABLE_TRANSACTION_TYPES = "transaction_types";
+const val TRANSACTION_TYPE_ID = "id";
+const val TRANSACTION_TYPE_NAME = "name";
+
+const val TABLE_TRANSACTION_CATEGORIES = "transaction_categories";
+const val TRANSACTION_CATEGORY_ID = "id";
+const val TRANSACTION_CATEGORY_NAME = "name";
+const val TRANSACTION_CATEGORY_USER = "user_id";
