@@ -35,6 +35,11 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item);
     }
 
+    fun onWalletButtonClick(view: View) {
+        val intent = Intent(applicationContext, WalletsListActivity::class.java);
+        startActivity(intent);
+    }
+
     private fun exit() {
         val preferences = getSharedPreferences(appPreferencesName, Context.MODE_PRIVATE);
         val editor = preferences.edit();

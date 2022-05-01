@@ -2,8 +2,29 @@ package com.example.fintracker_app.services
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.database.Cursor
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.widget.Toast
+
+fun showMessage(context: Context, message: String?){
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+}
+
+fun Cursor.getValueInteger(context: Context, columnName : String) : Int {
+    val columnIndex = this.getColumnIndex(columnName);
+    return this.getInt(columnIndex);
+}
+
+fun Cursor.getValueFloat(context: Context, columnName : String) : Float {
+    val columnIndex = this.getColumnIndex(columnName);
+    return this.getFloat(columnIndex);
+}
+
+fun Cursor.getValueString(context: Context, columnName : String) : String {
+    val columnIndex = this.getColumnIndex(columnName);
+    return this.getString(columnIndex);
+}
 
 class UtilsService {
     companion object {

@@ -10,10 +10,12 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, dbName, null, 
 
     override fun onCreate(db: SQLiteDatabase) {
         createTableCurrency(db);
+        createTableWallets(db);
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         dropTableCurrency(db);
+        dropTableWallets(db);
     }
 
     override fun onConfigure(db: SQLiteDatabase) {
@@ -29,5 +31,19 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, dbName, null, 
 
     private fun dropTableCurrency(db: SQLiteDatabase) {
         db.execSQL("DROP TABLE IF EXISTS $TABLE_CURRENCY");
+    }
+
+    private fun createTableWallets(db: SQLiteDatabase){
+        db.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_WALLETS (" +
+                "$WALLET_ID INTEGER PRIMARY KEY, " +
+                "$WALLET_NAME TEXT UNIQUE NOT NULL, " +
+                "$WALLET_CURRENCY INTEGER NOT NULL, " +
+                "$WALLET_USER INTEGER NOT NULL, " +
+                "FOREIGN KEY ($WALLET_CURRENCY) REFERENCES $TABLE_CURRENCY ($CURRENCY_ID) ON DELETE CASCADE" +
+                ")");
+    }
+
+    private fun dropTableWallets(db: SQLiteDatabase) {
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_WALLETS");
     }
 }

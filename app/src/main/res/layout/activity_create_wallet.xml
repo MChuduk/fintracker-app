@@ -6,31 +6,31 @@
     android:layout_height="match_parent"
     android:layout_margin="20px"
     android:orientation="vertical"
-    tools:context=".screens.MainActivity">
+    tools:context=".screens.CreateWalletActivity">
+
+    <EditText
+        android:id="@+id/editTextWalletName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Название"
+        android:inputType="textPersonName" />
 
     <TextView
-        android:id="@+id/textViewUserProfile"
+        android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:text="Валюта" />
+
+    <Spinner
+        android:id="@+id/spinnerCurrency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onWalletButtonClick"
-        android:text="Платежные кашелки" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Расходы" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Доходы" />
-
+        android:onClick="onCreateWalletButtonClick"
+        android:text="Создать" />
 </LinearLayout>
