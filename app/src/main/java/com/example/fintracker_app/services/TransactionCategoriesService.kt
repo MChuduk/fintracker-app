@@ -9,49 +9,11 @@ import com.example.fintracker_app.model.TransactionTypeModel
 import com.example.fintracker_app.model.WalletModel
 import com.example.fintracker_app.services.database.*
 
-class TransactionsService(val context: Context) {
+class TransactionCategoriesService(val context: Context) {
 
     private val dbHelper = DatabaseHelper(context);
 
-    init {
-        createType("Income");
-        createType("Spending");
-    }
-
-    fun createType(name: String): TransactionTypeModel? {
-        val db = dbHelper.writableDatabase;
-        return try {
-            val values = ContentValues();
-            values.put(TRANSACTION_TYPE_NAME, name);
-            val rowId = db.insertWithOnConflict(TABLE_TRANSACTION_TYPES, null, values,
-                SQLiteDatabase.CONFLICT_REPLACE).toInt();
-            TransactionTypeModel(rowId, name);
-        } catch (error: Exception) {
-            showMessage(context, error.message.toString());
-            null;
-        } finally {
-            db.close();
-        }
-    }
-
-    fun createCategory(id: Int?, name: String, userId: Int): TransactionCategoryModel? {
-        val db = dbHelper.writableDatabase;
-        return try {
-            val values = ContentValues();
-            if(id != null) values.put(TRANSACTION_CATEGORY_ID, id);
-            values.put(TRANSACTION_CATEGORY_NAME, name);
-            values.put(TRANSACTION_CATEGORY_USER, userId);
-            val rowId = db.insert(TABLE_TRANSACTION_CATEGORIES, null, values).toInt();
-            TransactionCategoryModel(rowId, name, userId);
-        } catch (error: Exception) {
-            showMessage(context, error.message.toString());
-            null;
-        } finally {
-            db.close();
-        }
-    }
-
-    fun getAllCategories(): MutableList<TransactionCategoryModel> {
+    fun getAll(): MutableList<TransactionCategoryModel> {
         val db = dbHelper.readableDatabase;
         var cursor : Cursor? = null;
         val categoriesList = mutableListOf<TransactionCategoryModel>();
@@ -75,22 +37,24 @@ class TransactionsService(val context: Context) {
         return categoriesList;
     }
 
-    fun deleteCategoryById(id: Int): Boolean {
+    fun create(id: Int?, name: String, userId: Int): TransactionCategoryModel? {
         val db = dbHelper.writableDatabase;
         return try {
-            val selection = "$TRANSACTION_CATEGORY_ID = ?";
-            val selectionArs = arrayOf(id.toString());
-            db.delete(TABLE_TRANSACTION_CATEGORIES, selection, selectionArs);
-            true;
+            val values = ContentValues();
+            if(id != null) values.put(TRANSACTION_CATEGORY_ID, id);
+            values.put(TRANSACTION_CATEGORY_NAME, name);
+            values.put(TRANSACTION_CATEGORY_USER, userId);
+            val rowId = db.insert(TABLE_TRANSACTION_CATEGORIES, null, values).toInt();
+            TransactionCategoryModel(rowId, name, userId);
         } catch (error: Exception) {
             showMessage(context, error.message.toString());
-            false;
+            null;
         } finally {
             db.close();
         }
     }
 
-    fun editCategory(id: Int, newName: String, newUser: Int): TransactionCategoryModel? {
+    fun edit(id: Int, newName: String, newUser: Int): TransactionCategoryModel? {
         val db = dbHelper.writableDatabase;
         return try {
             val selection = "$TRANSACTION_CATEGORY_ID = ?";
@@ -103,6 +67,21 @@ class TransactionsService(val context: Context) {
         } catch (error: Exception) {
             showMessage(context, error.message.toString());
             null;
+        } finally {
+            db.close();
+        }
+    }
+
+    fun delete(id: Int): Boolean {
+        val db = dbHelper.writableDatabase;
+        return try {
+            val selection = "$TRANSACTION_CATEGORY_ID = ?";
+            val selectionArs = arrayOf(id.toString());
+            db.delete(TABLE_TRANSACTION_CATEGORIES, selection, selectionArs);
+            true;
+        } catch (error: Exception) {
+            showMessage(context, error.message.toString());
+            false;
         } finally {
             db.close();
         }

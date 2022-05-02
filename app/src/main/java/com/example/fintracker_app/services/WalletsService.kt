@@ -10,24 +10,6 @@ class WalletsService(val context: Context) {
 
     private val dbHelper = DatabaseHelper(context);
 
-    fun create(id: Int?, name: String, currencyId: Int, userId: Int): WalletModel? {
-        val db = dbHelper.writableDatabase;
-        return try {
-            val values = ContentValues();
-            if(id != null) values.put(WALLET_ID, id)
-            values.put(WALLET_NAME, name);
-            values.put(WALLET_CURRENCY, currencyId);
-            values.put(WALLET_USER, userId);
-            val rowId = db.insertOrThrow(TABLE_WALLETS, null, values).toInt();
-            WalletModel(rowId, name, currencyId, userId);
-        } catch (error: Exception) {
-            showMessage(context, error.message.toString());
-            null;
-        } finally {
-            db.close();
-        }
-    }
-
     fun getAll(): MutableList<WalletModel> {
         val db = dbHelper.readableDatabase;
         var cursor : Cursor? = null;
@@ -53,6 +35,24 @@ class WalletsService(val context: Context) {
         return walletsList;
     }
 
+    fun create(id: Int?, name: String, currencyId: Int, userId: Int): WalletModel? {
+        val db = dbHelper.writableDatabase;
+        return try {
+            val values = ContentValues();
+            if(id != null) values.put(WALLET_ID, id)
+            values.put(WALLET_NAME, name);
+            values.put(WALLET_CURRENCY, currencyId);
+            values.put(WALLET_USER, userId);
+            val rowId = db.insertOrThrow(TABLE_WALLETS, null, values).toInt();
+            WalletModel(rowId, name, currencyId, userId);
+        } catch (error: Exception) {
+            showMessage(context, error.message.toString());
+            null;
+        } finally {
+            db.close();
+        }
+    }
+
     fun edit(id: Int, newName: String, newCurrencyId: Int, newUserId: Int): WalletModel? {
         val db = dbHelper.writableDatabase;
         return try {
@@ -72,7 +72,7 @@ class WalletsService(val context: Context) {
         }
     }
 
-    fun deleteById(id: Int): Boolean {
+    fun delete(id: Int): Boolean {
         val db = dbHelper.writableDatabase;
         return try {
             val selection = "$WALLET_ID = ?";

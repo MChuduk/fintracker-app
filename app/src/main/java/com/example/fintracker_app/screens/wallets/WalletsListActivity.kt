@@ -31,10 +31,10 @@ class WalletsListActivity : ModelListActivity<WalletModel>() {
 
     override fun onItemEdit() {
         super.onItemEdit();
-        val selectedWallet = getSelectedItems()[0];
+        val selectedItem = getSelectedItems()[0];
         val intent = Intent(applicationContext, WalletUpsertActivity::class.java);
         intent.putExtra("UpsertMode", "Update");
-        intent.putExtra("SelectedWallet", selectedWallet);
+        intent.putExtra("SelectedItem", selectedItem);
         startActivity(intent);
     }
 
@@ -42,7 +42,7 @@ class WalletsListActivity : ModelListActivity<WalletModel>() {
         super.onItemDelete();
         val items = getSelectedItems();
         for(item in items) {
-            service.deleteById(item.row_id);
+            service.delete(item.row_id);
         }
         itemList = service.getAll();
         recyclerView.adapter = WalletsAdapter(itemList);

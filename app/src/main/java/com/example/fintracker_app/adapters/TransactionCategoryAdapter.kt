@@ -15,7 +15,7 @@ class TransactionCategoryAdapter(private var items: List<TransactionCategoryMode
         var textViewCategoryName: TextView? = null;
 
         init {
-            textViewCategoryName = itemView.findViewById(R.id.textViewTitle);
+            textViewCategoryName = itemView.findViewById(R.id.textViewCategoryName);
         }
     }
 

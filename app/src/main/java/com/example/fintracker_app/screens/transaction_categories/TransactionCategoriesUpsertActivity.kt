@@ -11,11 +11,7 @@ import android.widget.EditText
 import com.example.fintracker_app.R
 import com.example.fintracker_app.appPreferencesName
 import com.example.fintracker_app.model.TransactionCategoryModel
-import com.example.fintracker_app.model.TransactionTypeModel
-import com.example.fintracker_app.model.WalletModel
-import com.example.fintracker_app.screens.wallets.WalletsListActivity
-import com.example.fintracker_app.services.TransactionsService
-import com.example.fintracker_app.services.selectItemByValue
+import com.example.fintracker_app.services.TransactionCategoriesService
 
 class TransactionCategoriesUpsertActivity : AppCompatActivity() {
 
@@ -23,7 +19,7 @@ class TransactionCategoriesUpsertActivity : AppCompatActivity() {
     private lateinit var buttonConfirm: Button;
 
     private lateinit var preferences: SharedPreferences;
-    private lateinit var transactionsService: TransactionsService;
+    private lateinit var transactionsService: TransactionCategoriesService;
     private lateinit var selectedTransactionCategory: TransactionCategoryModel;
     private lateinit var upsertMode: String;
 
@@ -45,9 +41,9 @@ class TransactionCategoriesUpsertActivity : AppCompatActivity() {
 
         var transactionCategory: TransactionCategoryModel? = null;
         if(upsertMode == "Insert") {
-            transactionCategory = transactionsService.createCategory(null, name, userId);
+            transactionCategory = transactionsService.create(null, name, userId);
         } else {
-            transactionCategory = transactionsService.editCategory(selectedTransactionCategory.row_id, name, userId);
+            transactionCategory = transactionsService.edit(selectedTransactionCategory.row_id, name, userId);
         }
         if(transactionCategory != null) {
             val intent = Intent(applicationContext,TransactionCategoriesListActivity::class.java);
@@ -66,14 +62,14 @@ class TransactionCategoriesUpsertActivity : AppCompatActivity() {
         }
     }
     private fun setSelectedTransactionType() {
-        if(intent.hasExtra("SelectedTransactionCategory")) {
-            selectedTransactionCategory = intent.getSerializableExtra("SelectedTransactionCategory") as TransactionCategoryModel;
+        if(intent.hasExtra("SelectedItem")) {
+            selectedTransactionCategory = intent.getSerializableExtra("SelectedItem") as TransactionCategoryModel;
             transactionCategoryName.setText(selectedTransactionCategory.name);
         }
     }
 
     private fun initServices() {
-        transactionsService = TransactionsService(applicationContext);
+        transactionsService = TransactionCategoriesService(applicationContext);
     }
 
     private fun findViews() {

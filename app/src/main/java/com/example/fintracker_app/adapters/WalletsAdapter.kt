@@ -13,9 +13,11 @@ class WalletsAdapter(private var items: List<WalletModel>) :
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var textViewWalletName: TextView? = null;
+        var textViewWalletAmount: TextView? = null;
 
         init {
-            textViewWalletName = itemView.findViewById(R.id.textViewTitle);
+            textViewWalletName = itemView.findViewById(R.id.textViewWalletName);
+            textViewWalletAmount = itemView.findViewById(R.id.textViewWalletAmount);
         }
     }
 

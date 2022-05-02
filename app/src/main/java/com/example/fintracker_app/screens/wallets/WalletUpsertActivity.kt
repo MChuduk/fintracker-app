@@ -85,8 +85,8 @@ class WalletUpsertActivity : AppCompatActivity() {
     }
 
     private fun setSelectedWallet() {
-        if(intent.hasExtra("SelectedWallet")) {
-            selectedWallet = intent.getSerializableExtra("SelectedWallet") as WalletModel;
+        if(intent.hasExtra("SelectedItem")) {
+            selectedWallet = intent.getSerializableExtra("SelectedItem") as WalletModel;
 
             walletName.setText(selectedWallet.name);
 
