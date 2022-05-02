@@ -4,17 +4,18 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import com.example.fintracker_app.model.WalletModel
-import com.example.fintracker_app.services.base.CrudService
 import com.example.fintracker_app.services.database.*
 
-class WalletsService(val context: Context): CrudService<WalletModel> {
+class WalletsService(val context: Context) {
 
     private val dbHelper = DatabaseHelper(context);
 
-    fun create(name: String, currencyId: Int, userId: Int): WalletModel? {
+    fun create(id: Int?, name: String, currencyId: Int, userId: Int): WalletModel? {
         val db = dbHelper.writableDatabase;
         return try {
             val values = ContentValues();
+            if(id != null)
+            values.put(WALLET_ID, id)
             values.put(WALLET_NAME, name);
             values.put(WALLET_CURRENCY, currencyId);
             values.put(WALLET_USER, userId);
@@ -28,7 +29,7 @@ class WalletsService(val context: Context): CrudService<WalletModel> {
         }
     }
 
-    override fun getAll(): MutableList<WalletModel> {
+    fun getAll(): MutableList<WalletModel> {
         val db = dbHelper.readableDatabase;
         var cursor : Cursor? = null;
         val walletsList = mutableListOf<WalletModel>();
@@ -56,7 +57,7 @@ class WalletsService(val context: Context): CrudService<WalletModel> {
     fun edit(id: Int, newName: String, newCurrencyId: Int, newUserId: Int): WalletModel? {
         val db = dbHelper.writableDatabase;
         return try {
-            val selection = "id = ?";
+            val selection = "$WALLET_ID = ?";
             val selectionArgs = arrayOf(id.toString());
             val values = ContentValues();
             values.put(WALLET_NAME, newName);
@@ -72,10 +73,10 @@ class WalletsService(val context: Context): CrudService<WalletModel> {
         }
     }
 
-    override fun deleteById(id: Int): Boolean {
+    fun deleteById(id: Int): Boolean {
         val db = dbHelper.writableDatabase;
         return try {
-            val selection = "id = ?";
+            val selection = "$WALLET_ID = ?";
             val selectionArs = arrayOf(id.toString());
             db.delete(TABLE_WALLETS, selection, selectionArs);
             true;

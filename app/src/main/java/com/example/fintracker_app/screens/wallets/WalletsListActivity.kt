@@ -2,14 +2,14 @@ package com.example.fintracker_app.screens.wallets
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fintracker_app.adapters.WalletsAdapter
 import com.example.fintracker_app.model.WalletModel
 import com.example.fintracker_app.screens.base.ModelListActivity
 import com.example.fintracker_app.services.WalletsService
-import com.example.fintracker_app.services.base.CrudService
 
 class WalletsListActivity : ModelListActivity<WalletModel>() {
+
+    private lateinit var service: WalletsService;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         service = WalletsService(applicationContext);
@@ -18,7 +18,8 @@ class WalletsListActivity : ModelListActivity<WalletModel>() {
 
     override fun onResume() {
         super.onResume()
-        updateAdapter();
+        itemList = service.getAll();
+        recyclerView.adapter = WalletsAdapter(itemList);
     }
 
     override fun onItemCreate() {
@@ -39,10 +40,11 @@ class WalletsListActivity : ModelListActivity<WalletModel>() {
 
     override fun onItemDelete() {
         super.onItemDelete();
-        updateAdapter();
-    }
-
-    private fun updateAdapter() {
+        val items = getSelectedItems();
+        for(item in items) {
+            service.deleteById(item.row_id);
+        }
+        itemList = service.getAll();
         recyclerView.adapter = WalletsAdapter(itemList);
     }
 }

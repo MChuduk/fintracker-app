@@ -9,19 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fintracker_app.R
-import com.example.fintracker_app.adapters.WalletsAdapter
-import com.example.fintracker_app.model.BaseDataModel
-import com.example.fintracker_app.model.WalletModel
 import com.example.fintracker_app.screens.MainActivity
-import com.example.fintracker_app.services.base.CrudService
 
-open class ModelListActivity<T> : AppCompatActivity() where T : BaseDataModel {
+open class ModelListActivity<T> : AppCompatActivity() {
 
     lateinit var itemList: MutableList<T>;
 
     lateinit var recyclerView: RecyclerView;
-
-    lateinit var service: CrudService<T>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
@@ -31,11 +25,6 @@ open class ModelListActivity<T> : AppCompatActivity() where T : BaseDataModel {
         val linearLayoutManager = LinearLayoutManager(applicationContext);
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
         recyclerView.layoutManager = linearLayoutManager
-    }
-
-    override fun onResume() {
-        super.onResume()
-        itemList = service.getAll();
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -61,13 +50,7 @@ open class ModelListActivity<T> : AppCompatActivity() where T : BaseDataModel {
 
     open fun onItemCreate() { }
 
-    open fun onItemDelete() {
-        val items = getSelectedItems();
-        for(item in items) {
-            service.deleteById(item.id);
-        }
-        itemList = service.getAll();
-    }
+    open fun onItemDelete() { }
 
     open fun onItemEdit() { }
 

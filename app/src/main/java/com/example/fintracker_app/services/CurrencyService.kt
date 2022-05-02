@@ -57,7 +57,7 @@ class CurrencyService(val context: Context) {
         var cursor : Cursor? = null;
         var currency: CurrencyModel? = null;
         try {
-            val selection = "name = ?";
+            val selection = "$CURRENCY_NAME = ?";
             val selectionArgs = arrayOf(nameInput);
             cursor = db.query(TABLE_CURRENCY, null, selection, selectionArgs, null, null, null);
 
@@ -81,7 +81,7 @@ class CurrencyService(val context: Context) {
         var cursor : Cursor? = null;
         var currency: CurrencyModel? = null;
         try {
-            val selection = "id = ?";
+            val selection = "$CURRENCY_ID = ?";
             val selectionArgs = arrayOf(idInput.toString());
             cursor = db.query(TABLE_CURRENCY, null, selection, selectionArgs, null, null, null);
 

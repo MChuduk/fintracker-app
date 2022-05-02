@@ -49,9 +49,9 @@ class WalletUpsertActivity : AppCompatActivity() {
 
         var wallet: WalletModel?;
         if(upsertMode == "Insert") {
-            wallet = walletsService.create(name, currencyId!!, userId);
+            wallet = walletsService.create(null, name, currencyId!!, userId);
         } else {
-            wallet = walletsService.edit(selectedWallet.id, name, currencyId!!, userId);
+            wallet = walletsService.edit(selectedWallet.row_id, name, currencyId!!, userId);
         }
         if(wallet != null) {
             val intent = Intent(applicationContext, WalletsListActivity::class.java);
