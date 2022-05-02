@@ -14,8 +14,7 @@ class WalletsService(val context: Context) {
         val db = dbHelper.writableDatabase;
         return try {
             val values = ContentValues();
-            if(id != null)
-            values.put(WALLET_ID, id)
+            if(id != null) values.put(WALLET_ID, id)
             values.put(WALLET_NAME, name);
             values.put(WALLET_CURRENCY, currencyId);
             values.put(WALLET_USER, userId);
