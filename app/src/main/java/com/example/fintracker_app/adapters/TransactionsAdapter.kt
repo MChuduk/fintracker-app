@@ -6,30 +6,28 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fintracker_app.R
-import com.example.fintracker_app.model.WalletModel
+import com.example.fintracker_app.model.TransactionModel
 
-class WalletsAdapter(private var items: List<WalletModel>) :
-    RecyclerView.Adapter<WalletsAdapter.MyViewHolder>() {
+class TransactionsAdapter(private var items: List<TransactionModel>) :
+    RecyclerView.Adapter<TransactionsAdapter.MyViewHolder>() {
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var textViewWalletName: TextView? = null;
-        var textViewWalletAmount: TextView? = null;
+        var textViewTransactionNote: TextView? = null;
 
         init {
-            textViewWalletName = itemView.findViewById(R.id.textWalletName);
-            textViewWalletAmount = itemView.findViewById(R.id.textViewWalletAmount);
+            textViewTransactionNote = itemView.findViewById(R.id.textViewTransactionNote);
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView =
             LayoutInflater.from(parent.context)
-                .inflate(R.layout.wallet_item, parent, false)
+                .inflate(R.layout.transaction_item, parent, false)
         return MyViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.textViewWalletName?.text = items[position].name;
+        holder.textViewTransactionNote?.text = items[position].note;
     }
 
     override fun getItemCount() = items.size

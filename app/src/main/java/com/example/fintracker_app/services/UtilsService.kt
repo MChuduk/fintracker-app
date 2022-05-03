@@ -38,6 +38,8 @@ fun Cursor.getValueString(context: Context, columnName : String) : String {
     return this.getString(columnIndex);
 }
 
+fun Boolean.toInt() = if (this) 1 else 0
+
 class UtilsService {
     companion object {
         @SuppressLint("NewApi")

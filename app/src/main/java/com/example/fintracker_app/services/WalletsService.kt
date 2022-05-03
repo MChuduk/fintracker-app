@@ -3,6 +3,7 @@ package com.example.fintracker_app.services
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
+import com.example.fintracker_app.model.TransactionTypeModel
 import com.example.fintracker_app.model.WalletModel
 import com.example.fintracker_app.services.database.*
 
@@ -85,5 +86,55 @@ class WalletsService(val context: Context) {
         } finally {
             db.close();
         }
+    }
+
+    fun findByName(nameInput: String): WalletModel? {
+        val db = dbHelper.readableDatabase;
+        var cursor : Cursor? = null;
+        var wallet: WalletModel? = null;
+        try {
+            val selection = "$WALLET_NAME = ?";
+            val selectionArgs = arrayOf(nameInput);
+            cursor = db.query(TABLE_WALLETS, null, selection, selectionArgs, null, null, null);
+
+            if(cursor.moveToFirst()) {
+                val id = cursor.getValueInteger(context, WALLET_ID);
+                val name = cursor.getValueString(context, WALLET_NAME);
+                val currencyId = cursor.getValueInteger(context, WALLET_CURRENCY);
+                val userId = cursor.getValueInteger(context, WALLET_USER);
+                wallet = WalletModel(id, name, currencyId, userId);
+            }
+        } catch (error: java.lang.Exception) {
+            showMessage(context, error.message.toString());
+        } finally {
+            cursor?.close();
+            db.close();
+        }
+        return wallet;
+    }
+
+    fun findById(idInput: Int): WalletModel? {
+        val db = dbHelper.readableDatabase;
+        var cursor : Cursor? = null;
+        var wallet: WalletModel? = null;
+        try {
+            val selection = "$WALLET_ID = ?";
+            val selectionArgs = arrayOf(idInput.toString());
+            cursor = db.query(TABLE_WALLETS, null, selection, selectionArgs, null, null, null);
+
+            if(cursor.moveToFirst()) {
+                val id = cursor.getValueInteger(context, WALLET_ID);
+                val name = cursor.getValueString(context, WALLET_NAME);
+                val currencyId = cursor.getValueInteger(context, WALLET_CURRENCY);
+                val userId = cursor.getValueInteger(context, WALLET_USER);
+                wallet = WalletModel(id, name, currencyId, userId);
+            }
+        } catch (error: java.lang.Exception) {
+            showMessage(context, error.message.toString());
+        } finally {
+            cursor?.close();
+            db.close();
+        }
+        return wallet;
     }
 }

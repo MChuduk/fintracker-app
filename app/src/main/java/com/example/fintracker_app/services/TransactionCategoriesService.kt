@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import com.example.fintracker_app.model.CurrencyModel
 import com.example.fintracker_app.model.TransactionCategoryModel
 import com.example.fintracker_app.model.TransactionTypeModel
 import com.example.fintracker_app.model.WalletModel
@@ -85,5 +86,53 @@ class TransactionCategoriesService(val context: Context) {
         } finally {
             db.close();
         }
+    }
+
+    fun findByName(nameInput: String): TransactionCategoryModel? {
+        val db = dbHelper.readableDatabase;
+        var cursor : Cursor? = null;
+        var category: TransactionCategoryModel? = null;
+        try {
+            val selection = "$TRANSACTION_CATEGORY_NAME = ?";
+            val selectionArgs = arrayOf(nameInput);
+            cursor = db.query(TABLE_TRANSACTION_CATEGORIES, null, selection, selectionArgs, null, null, null);
+
+            if(cursor.moveToFirst()) {
+                val id = cursor.getValueInteger(context, TRANSACTION_CATEGORY_ID);
+                val name = cursor.getValueString(context, TRANSACTION_CATEGORY_NAME);
+                val userId = cursor.getValueInteger(context, TRANSACTION_CATEGORY_USER);
+                category = TransactionCategoryModel(id, name, userId);
+            }
+        } catch (error: java.lang.Exception) {
+            showMessage(context, error.message.toString());
+        } finally {
+            cursor?.close();
+            db.close();
+        }
+        return category;
+    }
+
+    fun findById(idInput: Int): TransactionCategoryModel? {
+        val db = dbHelper.readableDatabase;
+        var cursor : Cursor? = null;
+        var category: TransactionCategoryModel? = null;
+        try {
+            val selection = "$TRANSACTION_CATEGORY_ID = ?";
+            val selectionArgs = arrayOf(idInput.toString());
+            cursor = db.query(TABLE_TRANSACTION_CATEGORIES, null, selection, selectionArgs, null, null, null);
+
+            if(cursor.moveToFirst()) {
+                val id = cursor.getValueInteger(context, TRANSACTION_CATEGORY_ID);
+                val name = cursor.getValueString(context, TRANSACTION_CATEGORY_NAME);
+                val userId = cursor.getValueInteger(context, TRANSACTION_CATEGORY_USER);
+                category = TransactionCategoryModel(id, name, userId);
+            }
+        } catch (error: java.lang.Exception) {
+            showMessage(context, error.message.toString());
+        } finally {
+            cursor?.close();
+            db.close();
+        }
+        return category;
     }
 }

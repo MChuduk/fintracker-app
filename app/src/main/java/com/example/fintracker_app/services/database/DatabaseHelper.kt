@@ -13,6 +13,7 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, dbName, null, 
         createTableWallets(db);
         createTableTransactionTypes(db);
         createTableTransactionCategories(db);
+        createTableTransactions(db);
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
@@ -20,6 +21,7 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, dbName, null, 
         dropTableWallets(db);
         dropTableTransactionTypes(db);
         dropTableTransactionCategories(db);
+        dropTableTransactions(db);
     }
 
     override fun onConfigure(db: SQLiteDatabase) {
@@ -73,5 +75,25 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, dbName, null, 
 
     private fun dropTableTransactionCategories(db: SQLiteDatabase) {
         db.execSQL("DROP TABLE IF EXISTS $TABLE_TRANSACTION_CATEGORIES");
+    }
+
+    private fun createTableTransactions(db: SQLiteDatabase) {
+        db.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_TRANSACTIONS (" +
+                "$TRANSACTION_ID INTEGER PRIMARY KEY, " +
+                "$TRANSACTION_TYPE INTEGER, " +
+                "$TRANSACTION_NOTE TEXT, " +
+                "$TRANSACTION_AMOUNT REAL, " +
+                "$TRANSACTION_DATE TEXT, " +
+                "$TRANSACTION_WALLET INTEGER, " +
+                "$TRANSACTION_CATEGORY INTEGER, " +
+                "$TRANSACTION_REPEAT INTEGER, " +
+                "FOREIGN KEY ($TRANSACTION_TYPE) REFERENCES $TABLE_TRANSACTION_TYPES ($TRANSACTION_TYPE_ID) ON DELETE CASCADE, " +
+                "FOREIGN KEY ($TRANSACTION_WALLET) REFERENCES $TABLE_WALLETS ($WALLET_ID) ON DELETE CASCADE, " +
+                "FOREIGN KEY ($TRANSACTION_CATEGORY) REFERENCES $TABLE_TRANSACTION_CATEGORIES ($TRANSACTION_CATEGORY_ID) ON DELETE CASCADE" +
+                ")");
+    }
+
+    private fun dropTableTransactions(db: SQLiteDatabase) {
+        db.execSQL("DROP TABLE IF EXISTS $TABLE_TRANSACTIONS");
     }
 }

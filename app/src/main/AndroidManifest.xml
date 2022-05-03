@@ -19,19 +19,16 @@
             android:name=".screens.transaction_categories.TransactionCategoriesListActivity"
             android:exported="false" />
         <activity
+            android:name=".screens.transactions.TransactionsListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".screens.transactions.TransactionsUpsertActivity"
+            android:exported="false" />
+        <activity
             android:name=".screens.wallets.WalletUpsertActivity"
             android:exported="false" />
         <activity
             android:name=".screens.base.ModelListActivity"
-            android:exported="false" />
-        <activity
-            android:name=".screens.transaction_categories.TransactionCategoriesActivity"
-            android:exported="false" />
-        <activity
-            android:name=".screens.wallets.WalletEditActivity"
-            android:exported="false" />
-        <activity
-            android:name=".screens.wallets.WalletCreateActivity"
             android:exported="false" />
         <activity
             android:name=".screens.wallets.WalletsListActivity"
