@@ -65,9 +65,16 @@ class TransactionsUpsertActivity : AppCompatActivity() {
             val amount = editTextTransactionAmount.text.toString().toFloatOrNull()
                 ?: throw Exception("Ошибка преобразования суммы транзакции");
 
+            if (typeId == 2) {
+                val walletAmount = walletsService.getAmount(walletId!!);
+                val walletName = walletsService.findById(walletId)?.name;
+                if(walletAmount - amount < 0)
+                    throw Exception("На кашельке $walletName не достаточно средств для проведения данной транзакции");
+            }
+
             val repeat = checkBoxTransactionRepeat.isChecked.toInt();
 
-            var transaction: TransactionModel? = null;
+            var transaction: TransactionModel?;
             if(upsertMode == "Insert") {
                 transaction = transactionsService.create(null, typeId!!, note, amount, date, walletId!!, categoryId!!, repeat);
             } else {

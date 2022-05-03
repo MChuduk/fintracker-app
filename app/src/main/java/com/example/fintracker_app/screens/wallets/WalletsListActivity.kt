@@ -19,7 +19,7 @@ class WalletsListActivity : ModelListActivity<WalletModel>() {
     override fun onResume() {
         super.onResume()
         itemList = service.getAll();
-        recyclerView.adapter = WalletsAdapter(itemList);
+        recyclerView.adapter = WalletsAdapter(applicationContext, itemList);
     }
 
     override fun onItemCreate() {
@@ -45,6 +45,6 @@ class WalletsListActivity : ModelListActivity<WalletModel>() {
             service.delete(item.row_id);
         }
         itemList = service.getAll();
-        recyclerView.adapter = WalletsAdapter(itemList);
+        recyclerView.adapter = WalletsAdapter(applicationContext, itemList);
     }
 }

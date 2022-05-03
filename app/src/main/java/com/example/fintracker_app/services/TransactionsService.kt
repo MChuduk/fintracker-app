@@ -102,4 +102,42 @@ class TransactionsService(val context: Context) {
             db.close();
         }
     }
+
+    fun getIncomeAmount(walletId: Int): Float {
+        val db = dbHelper.readableDatabase;
+        var cursor : Cursor? = null;
+        var amount = 0.0f;
+        try {
+            cursor = db.rawQuery("SELECT SUM(amount) FROM $TABLE_TRANSACTIONS WHERE $TRANSACTION_WALLET = ? " +
+                    "AND $TRANSACTION_TYPE = 1", arrayOf(walletId.toString()));
+            if(cursor.moveToFirst()) {
+                amount = cursor.getFloat(0);
+            }
+        } catch (error: Exception) {
+            showMessage(context, error.message.toString());
+        } finally {
+            cursor?.close();
+            db.close();
+        }
+        return amount;
+    }
+
+    fun getSpendingAmount(walletId: Int): Float {
+        val db = dbHelper.readableDatabase;
+        var cursor : Cursor? = null;
+        var amount = 0.0f;
+        try {
+            cursor = db.rawQuery("SELECT SUM(amount) FROM $TABLE_TRANSACTIONS WHERE $TRANSACTION_WALLET = ? " +
+                    "AND $TRANSACTION_TYPE = 2", arrayOf(walletId.toString()));
+            if(cursor.moveToFirst()) {
+                amount = cursor.getFloat(0);
+            }
+        } catch (error: Exception) {
+            showMessage(context, error.message.toString());
+        } finally {
+            cursor?.close();
+            db.close();
+        }
+        return amount;
+    }
 }

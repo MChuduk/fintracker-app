@@ -11,6 +11,8 @@ class WalletsService(val context: Context) {
 
     private val dbHelper = DatabaseHelper(context);
 
+    private val transactionsService: TransactionsService = TransactionsService(context);
+
     fun getAll(): MutableList<WalletModel> {
         val db = dbHelper.readableDatabase;
         var cursor : Cursor? = null;
@@ -136,5 +138,11 @@ class WalletsService(val context: Context) {
             db.close();
         }
         return wallet;
+    }
+
+    fun getAmount(walletId: Int): Float {
+        val incomeAmount = transactionsService.getIncomeAmount(walletId);
+        val spendingAmount = transactionsService.getSpendingAmount(walletId);
+        return incomeAmount - spendingAmount;
     }
 }
