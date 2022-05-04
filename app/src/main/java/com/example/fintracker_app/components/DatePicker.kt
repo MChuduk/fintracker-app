@@ -26,7 +26,7 @@ class DatePicker(val context: Context, val tvDatePicker: TextView, val btnDatePi
     }
 
     private fun updateLabel(myCalendar: Calendar) {
-        val myFormat = "dd-MM-yyyy";
+        val myFormat = "yyyy-MM-dd";
         val sdf = SimpleDateFormat(myFormat, Locale.UK);
         tvDatePicker.setText(sdf.format(myCalendar.time));
     }

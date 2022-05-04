@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/CreateItem"
+        android:title="Создать" />
+    <item
+        android:id="@+id/DeleteItem"
+        android:title="Удалить" />
+    <item
+        android:id="@+id/EditItem"
+        android:checkable="false"
+        android:checked="false"
+        android:enabled="true"
+        android:title="Изменить" />
+    <item
+        android:id="@+id/StatsItem"
+        android:title="Статистика" ></item>
+    <item
+        android:id="@+id/SortsItem"
+        android:title="Сортировка">
+        <menu>
+            <item
+                android:id="@+id/SortByPeriodItem"
+                android:title="По периоду" />
+            <item
+                android:id="@+id/ClearSortsItem"
+                android:title="Отчистить" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/BackItem"
+        android:title="Назад" />
+</menu>
