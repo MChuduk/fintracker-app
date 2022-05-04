@@ -31,7 +31,7 @@ class TransactionsListActivity : ModelListActivity<TransactionModel>() {
     override fun onResume() {
         super.onResume()
         itemList = service.getAll();
-        recyclerView.adapter = TransactionsAdapter(itemList);
+        recyclerView.adapter = TransactionsAdapter(applicationContext, itemList);
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -74,7 +74,7 @@ class TransactionsListActivity : ModelListActivity<TransactionModel>() {
             service.delete(item.row_id);
         }
         itemList = service.getAll();
-        recyclerView.adapter = TransactionsAdapter(itemList);
+        recyclerView.adapter = TransactionsAdapter(applicationContext, itemList);
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -85,11 +85,18 @@ class TransactionsListActivity : ModelListActivity<TransactionModel>() {
         val sortedItems: MutableList<TransactionModel> = arrayListOf();
         for(item in itemList) {
             val itemDate = LocalDate.parse(item.date);
-            if(itemDate in dateFrom..dateTo)
+            if(itemDate in dateFrom..dateTo) {
                 sortedItems.add(item);
+            } else {
+                if(item.repeat == 1) {
+                    if(itemDate.dayOfMonth in dateFrom.dayOfMonth..dateTo.dayOfMonth) {
+                        sortedItems.add(item);
+                    }
+                }
+            }
         }
         itemList = sortedItems;
-        recyclerView.adapter = TransactionsAdapter(itemList);
+        recyclerView.adapter = TransactionsAdapter(applicationContext, itemList);
     }
 
     fun sortByWallet(walletId: Int) {
@@ -99,7 +106,7 @@ class TransactionsListActivity : ModelListActivity<TransactionModel>() {
                 sortedItems.add(item);
         }
         itemList = sortedItems;
-        recyclerView.adapter = TransactionsAdapter(itemList);
+        recyclerView.adapter = TransactionsAdapter(applicationContext, itemList);
     }
 
     fun onStatsItemSelected() {
@@ -108,7 +115,7 @@ class TransactionsListActivity : ModelListActivity<TransactionModel>() {
 
     private fun onClearStatsItemSelected() {
         itemList = service.getAll();
-        recyclerView.adapter = TransactionsAdapter(itemList);
+        recyclerView.adapter = TransactionsAdapter(applicationContext, itemList);
     }
 
     private fun onShowSortByPeriodDialog() {
