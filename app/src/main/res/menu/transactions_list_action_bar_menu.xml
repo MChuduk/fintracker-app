@@ -14,9 +14,6 @@
         android:enabled="true"
         android:title="Изменить" />
     <item
-        android:id="@+id/StatsItem"
-        android:title="Статистика" ></item>
-    <item
         android:id="@+id/SortsItem"
         android:title="Сортировка">
         <menu>
@@ -24,10 +21,16 @@
                 android:id="@+id/SortByPeriodItem"
                 android:title="По периоду" />
             <item
+                android:id="@+id/SortByWalletItem"
+                android:title="По кошельку" />
+            <item
                 android:id="@+id/ClearSortsItem"
                 android:title="Отчистить" />
         </menu>
     </item>
+    <item
+        android:id="@+id/StatsItem"
+        android:title="Статистика" ></item>
     <item
         android:id="@+id/BackItem"
         android:title="Назад" />

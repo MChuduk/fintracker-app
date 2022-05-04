@@ -53,7 +53,7 @@ class TransactionsUpsertActivity : AppCompatActivity() {
     private fun confirm() {
         try {
             if(spinnerType.selectedItem == null) throw Exception("Необходимо выбрать тип транзакции")
-            if(spinnerWallet.selectedItem == null) throw Exception("Необходимо выбрать платежный кашелек")
+            if(spinnerWallet.selectedItem == null) throw Exception("Необходимо выбрать платежный кошелек")
             if(spinnerTransactionCategory.selectedItem == null) throw Exception("Необходимо выбрать категорию транзакции")
 
             val typeId = transactionTypesService.findByName(spinnerType.selectedItem.toString())?.id;
@@ -69,7 +69,7 @@ class TransactionsUpsertActivity : AppCompatActivity() {
                 val walletAmount = walletsService.getAmount(walletId!!);
                 val walletName = walletsService.findById(walletId)?.name;
                 if(walletAmount - amount < 0)
-                    throw Exception("На кашельке $walletName не достаточно средств для проведения данной транзакции");
+                    throw Exception("На кошельке $walletName не достаточно средств для проведения данной транзакции");
             }
 
             val repeat = checkBoxTransactionRepeat.isChecked.toInt();

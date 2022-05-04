@@ -10,6 +10,7 @@ import com.example.fintracker_app.R
 import com.example.fintracker_app.adapters.TransactionsAdapter
 import com.example.fintracker_app.adapters.WalletsAdapter
 import com.example.fintracker_app.dialogs.SortByPeriodDialog
+import com.example.fintracker_app.dialogs.SortByWalletDialog
 import com.example.fintracker_app.model.TransactionModel
 import com.example.fintracker_app.model.WalletModel
 import com.example.fintracker_app.screens.base.ModelListActivity
@@ -43,6 +44,7 @@ class TransactionsListActivity : ModelListActivity<TransactionModel>() {
         when(item.itemId) {
             R.id.StatsItem -> onStatsItemSelected();
             R.id.SortByPeriodItem -> onShowSortByPeriodDialog();
+            R.id.SortByWalletItem -> onShowSortByWalletDialog();
             R.id.ClearSortsItem -> onClearStatsItemSelected();
         };
 
@@ -84,12 +86,21 @@ class TransactionsListActivity : ModelListActivity<TransactionModel>() {
         for(item in itemList) {
             val itemDate = LocalDate.parse(item.date);
             if(itemDate in dateFrom..dateTo)
-            sortedItems.add(item);
+                sortedItems.add(item);
         }
         itemList = sortedItems;
         recyclerView.adapter = TransactionsAdapter(itemList);
     }
 
+    fun sortByWallet(walletId: Int) {
+        val sortedItems: MutableList<TransactionModel> = arrayListOf();
+        for(item in itemList) {
+            if(item.wallet_id == walletId)
+                sortedItems.add(item);
+        }
+        itemList = sortedItems;
+        recyclerView.adapter = TransactionsAdapter(itemList);
+    }
 
     fun onStatsItemSelected() {
 
@@ -103,5 +114,10 @@ class TransactionsListActivity : ModelListActivity<TransactionModel>() {
     private fun onShowSortByPeriodDialog() {
         val dialog = SortByPeriodDialog(this);
         dialog.show(supportFragmentManager, "SortByPeriod");
+    }
+
+    private fun onShowSortByWalletDialog() {
+        val dialog = SortByWalletDialog(this);
+        dialog.show(supportFragmentManager, "SortByWallet");
     }
 }

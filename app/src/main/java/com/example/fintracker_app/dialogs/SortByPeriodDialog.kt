@@ -1,10 +1,12 @@
 package com.example.fintracker_app.dialogs
 
 import android.app.Dialog
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatDialogFragment
 import com.example.fintracker_app.R
@@ -23,6 +25,7 @@ class SortByPeriodDialog(private val activity: TransactionsListActivity): AppCom
     private lateinit var datePickerFrom: DatePicker;
     private lateinit var datePickerTo: DatePicker;
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val builder = AlertDialog.Builder(activity);
         val view = layoutInflater.inflate(R.layout.dialog_sort_by_period, null);
