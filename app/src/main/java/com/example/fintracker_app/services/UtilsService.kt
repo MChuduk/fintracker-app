@@ -3,11 +3,13 @@ package com.example.fintracker_app.services
 import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
+import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.widget.Spinner
 import android.widget.Toast
 import android.widget.SpinnerAdapter
+import java.util.*
 
 fun showMessage(context: Context, message: String?){
     Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
@@ -39,6 +41,11 @@ fun Cursor.getValueString(context: Context, columnName : String) : String {
 }
 
 fun Boolean.toInt() = if (this) 1 else 0
+
+fun getRandomColor(): Int {
+    val rnd = Random()
+    return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
+}
 
 class UtilsService {
     companion object {

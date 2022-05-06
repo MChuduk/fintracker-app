@@ -11,8 +11,10 @@ import com.example.fintracker_app.adapters.TransactionsAdapter
 import com.example.fintracker_app.adapters.WalletsAdapter
 import com.example.fintracker_app.dialogs.SortByPeriodDialog
 import com.example.fintracker_app.dialogs.SortByWalletDialog
+import com.example.fintracker_app.model.TransactionCollection
 import com.example.fintracker_app.model.TransactionModel
 import com.example.fintracker_app.model.WalletModel
+import com.example.fintracker_app.screens.StatsActivity
 import com.example.fintracker_app.screens.base.ModelListActivity
 import com.example.fintracker_app.screens.wallets.WalletUpsertActivity
 import com.example.fintracker_app.services.TransactionsService
@@ -109,8 +111,11 @@ class TransactionsListActivity : ModelListActivity<TransactionModel>() {
         recyclerView.adapter = TransactionsAdapter(applicationContext, itemList);
     }
 
-    fun onStatsItemSelected() {
-
+    private fun onStatsItemSelected() {
+        val intent = Intent(applicationContext, StatsActivity::class.java);
+        val collection = TransactionCollection(itemList);
+        intent.putExtra("TransactionCollection", collection);
+        startActivity(intent);
     }
 
     private fun onClearStatsItemSelected() {

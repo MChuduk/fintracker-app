@@ -12,3 +12,7 @@ data class TransactionModel (
     val category_id: Int,
     val repeat: Int,
 ) : Serializable;
+
+data class TransactionCollection (
+    val items: MutableList<TransactionModel>,
+) : Serializable;
