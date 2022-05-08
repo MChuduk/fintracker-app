@@ -8,10 +8,41 @@
     android:orientation="vertical"
     tools:context=".screens.StatsActivity">
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Тип транзакции" />
+
+    <Spinner
+        android:id="@+id/spinnerTransactionType"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        tools:ignore="SpeakableTextPresentCheck" />
+
     <com.razerdp.widget.animatedpieview.AnimatedPieView
         android:id="@+id/animatedPieView"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_gravity="center" />
+
+    <TextView
+        android:id="@+id/textViewTotalTransactionAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textViewMaxTransactionAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/textViewMinTransactionAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 
 </LinearLayout>
