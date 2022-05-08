@@ -4,7 +4,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.lifecycleScope
 import com.example.fintracker_app.data.repository.Repository
 import com.example.fintracker_app.model.CurrencyModel
@@ -17,8 +19,9 @@ class CurrencyService(val context: Context) {
 
     private val dbHelper = DatabaseHelper(context);
 
+    @RequiresApi(Build.VERSION_CODES.M)
     suspend fun updateExchangeRates() {
-        if (!UtilsService.isOnline(context)) {
+        if (!isOnline(context)) {
             return;
         }
         try {

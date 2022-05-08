@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.TextView
 import com.example.fintracker_app.R
 import com.example.fintracker_app.appPreferencesName
+import com.example.fintracker_app.screens.snapshots.SnapshotsListActivity
 import com.example.fintracker_app.screens.transaction_categories.TransactionCategoriesListActivity
 import com.example.fintracker_app.screens.transactions.TransactionsListActivity
 
@@ -52,6 +53,11 @@ class MainActivity : AppCompatActivity() {
 
     fun onTransactionsButtonClick(view: View) {
         val intent = Intent(applicationContext, TransactionsListActivity::class.java);
+        startActivity(intent);
+    }
+
+    fun onSnapshotsButtonClick(view: View) {
+        val intent = Intent(applicationContext, SnapshotsListActivity::class.java);
         startActivity(intent);
     }
 

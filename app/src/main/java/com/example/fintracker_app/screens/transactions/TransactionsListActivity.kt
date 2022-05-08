@@ -49,7 +49,6 @@ class TransactionsListActivity : ModelListActivity<TransactionModel>() {
             R.id.SortByWalletItem -> onShowSortByWalletDialog();
             R.id.ClearSortsItem -> onClearStatsItemSelected();
         };
-
         return super.onOptionsItemSelected(item);
     }
 

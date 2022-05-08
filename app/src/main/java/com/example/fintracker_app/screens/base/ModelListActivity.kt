@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.CheckBox
+import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -13,8 +14,9 @@ import com.example.fintracker_app.screens.MainActivity
 
 open class ModelListActivity<T> : AppCompatActivity() {
 
-    lateinit var itemList: MutableList<T>;
+    var itemList: MutableList<T> = mutableListOf();
 
+    lateinit var progressBar: ProgressBar;
     lateinit var recyclerView: RecyclerView;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,6 +74,7 @@ open class ModelListActivity<T> : AppCompatActivity() {
     }
 
     private fun findView() {
+        progressBar = findViewById(R.id.progressBar);
         recyclerView = findViewById(R.id.recyclerView);
     }
 }

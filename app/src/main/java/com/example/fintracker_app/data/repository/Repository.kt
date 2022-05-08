@@ -5,6 +5,7 @@ import com.example.fintracker_app.dto.SignInDto
 import com.example.fintracker_app.dto.SignUpDto
 import com.example.fintracker_app.model.CurrencyModel
 import com.example.fintracker_app.model.SignInResponseModel
+import com.example.fintracker_app.model.SnapshotModel
 import com.example.fintracker_app.model.UserModel
 import retrofit2.Response
 
@@ -21,5 +22,9 @@ class Repository {
 
     suspend fun getAllCurrency(): Response<MutableList<CurrencyModel>> {
         return RetrofitInstance.api.getAllCurrency();
+    }
+
+    suspend fun getAllSnapshots(token: String): Response<MutableList<SnapshotModel>> {
+        return RetrofitInstance.api.getAllSnapshots(token);
     }
 }

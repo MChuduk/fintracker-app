@@ -37,6 +37,9 @@
             android:name=".screens.wallets.WalletsListActivity"
             android:exported="false" />
         <activity
+            android:name=".screens.snapshots.SnapshotsListActivity"
+            android:exported="false" />
+        <activity
             android:name=".screens.SignInActivity"
             android:exported="false" />
         <activity
