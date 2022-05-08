@@ -22,12 +22,21 @@ interface ApiService {
     @GET("api/snapshots")
     suspend fun getAllSnapshots(@Header("Authorization") token: String): Response<MutableList<SnapshotModel>>
 
+    @GET("api/snapshots/{id}")
+    suspend fun getOneSnapshot(@Header("Authorization") token: String, @Path("id") id: Int): Response<SnapshotModel>
+
     @DELETE("api/snapshots/{id}")
     suspend fun deleteSnapshot(@Header("Authorization") token: String, @Path("id") id: Int): Response<SnapshotModel>
 
     @GET("api/wallets?")
-    suspend fun getAllWallets(@Header("Authorization") token: String, @Query("snapshot_id") snapshotId: Int): MutableList<WalletModel>
+    suspend fun getAllWallets(@Header("Authorization") token: String, @Query("snapshot_id") snapshotId: Int): Response<MutableList<WalletModel>>
 
     @POST("api/wallets")
     suspend fun createWallet(@Header("Authorization") token: String, @Body model: WalletModel): Response<WalletModel>
+
+    @POST("api/transaction/categories")
+    suspend fun createTransactionCategory(@Header("Authorization") token: String, @Body model: TransactionCategoryModel): Response<TransactionCategoryModel>
+
+    @GET("api/transaction/categories?")
+    suspend fun getAllTransactionCategories(@Header("Authorization") token: String, @Query("snapshot_id") snapshotId: Int): Response<MutableList<TransactionCategoryModel>>
 }

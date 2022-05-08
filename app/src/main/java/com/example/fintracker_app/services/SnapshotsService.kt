@@ -50,13 +50,17 @@ class SnapshotsService(val context: Context) {
 
     suspend fun getOne(token: String, id: Int): SnapshotModel? {
         try {
-            val snapshots = getAll(token);
-            for(snapshot in snapshots) {
-                if(snapshot.id == id) {
-                    return snapshot;
-                }
+            val repo = Repository();
+            val response = repo.getOneSnapshot("Bearer $token", id);
+            val snapshot = response.body();
+            if(snapshot === null) {
+                val err = Gson().fromJson(
+                    response.errorBody()!!.charStream(),
+                    ErrorModel::class.java
+                )
+                throw Exception(err.message);
             }
-            return null;
+            return snapshot;
         } catch (error: Exception) {
             showMessage(context, error.message.toString());
             return null;

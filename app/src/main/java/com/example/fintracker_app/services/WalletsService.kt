@@ -168,9 +168,9 @@ class WalletsService(val context: Context) {
                 dbHelper.clearTableWallets();
 
                 val repo = Repository();
-                val models = repo.getAllWallets("Bearer $token", snapshot.id);
-                for(model in models) {
-                    println("TEST")
+                val response = repo.getAllWallets("Bearer $token", snapshot.id);
+                val models = response.body();
+                for(model in models!!) {
                     create(model.row_id, model.name, model.currency_id, snapshot.user_id);
                 }
             }

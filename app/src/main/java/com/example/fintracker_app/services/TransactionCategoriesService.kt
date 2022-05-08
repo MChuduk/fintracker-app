@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import com.example.fintracker_app.data.repository.Repository
 import com.example.fintracker_app.model.CurrencyModel
 import com.example.fintracker_app.model.TransactionCategoryModel
 import com.example.fintracker_app.model.TransactionTypeModel
@@ -13,6 +14,8 @@ import com.example.fintracker_app.services.database.*
 class TransactionCategoriesService(val context: Context) {
 
     private val dbHelper = DatabaseHelper(context);
+
+    private val snapshotService: SnapshotsService = SnapshotsService(context);
 
     fun getAll(): MutableList<TransactionCategoryModel> {
         val db = dbHelper.readableDatabase;
@@ -134,5 +137,35 @@ class TransactionCategoriesService(val context: Context) {
             db.close();
         }
         return category;
+    }
+
+    suspend fun attachAllToSnapshot(token: String) {
+        try {
+            val repo = Repository()
+            val models = getAll();
+            for(model in models) {
+                repo.createTransactionCategory("Bearer $token", model);
+            }
+        } catch (error: java.lang.Exception) {
+            showMessage(context, error.message.toString());
+        }
+    }
+
+    suspend fun applySnapshot(token: String, snapshotId: Int) {
+        try {
+            val snapshot = snapshotService.getOne(token, snapshotId);
+            if(snapshot != null) {
+                dbHelper.clearTableTransactionCategories();
+
+                val repo = Repository();
+                val response = repo.getAllTransactionCategories("Bearer $token", snapshot.id);
+                val models = response.body();
+                for(model in models!!) {
+                    create(model.row_id, model.name, snapshot.user_id);
+                }
+            }
+        } catch (error: java.lang.Exception) {
+            showMessage(context, error.message.toString());
+        }
     }
 }
