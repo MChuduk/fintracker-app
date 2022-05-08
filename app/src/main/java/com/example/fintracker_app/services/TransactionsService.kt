@@ -3,6 +3,7 @@ package com.example.fintracker_app.services
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
+import com.example.fintracker_app.data.repository.Repository
 import com.example.fintracker_app.model.TransactionModel
 import com.example.fintracker_app.model.WalletModel
 import com.example.fintracker_app.services.database.*
@@ -10,6 +11,8 @@ import com.example.fintracker_app.services.database.*
 class TransactionsService(val context: Context) {
 
     private val dbHelper = DatabaseHelper(context);
+
+    private val snapshotService: SnapshotsService = SnapshotsService(context);
 
     fun getAll(): MutableList<TransactionModel> {
         val db = dbHelper.readableDatabase;
@@ -139,5 +142,35 @@ class TransactionsService(val context: Context) {
             db.close();
         }
         return amount;
+    }
+
+    suspend fun attachAllToSnapshot(token: String) {
+        try {
+            val repo = Repository()
+            val models = getAll();
+            for(model in models) {
+                repo.createTransaction("Bearer $token", model);
+            }
+        } catch (error: java.lang.Exception) {
+            showMessage(context, error.message.toString());
+        }
+    }
+
+    suspend fun applySnapshot(token: String, snapshotId: Int) {
+        try {
+            val snapshot = snapshotService.getOne(token, snapshotId);
+            if(snapshot != null) {
+                dbHelper.clearTableTransactions();
+
+                val repo = Repository();
+                val response = repo.getAllTransactions("Bearer $token", snapshot.id);
+                val models = response.body();
+                for(model in models!!) {
+                    create(model.row_id, model.type_id, model.note, model.amount, model.date, model.wallet_id, model.category_id, model.repeat);
+                }
+            }
+        } catch (error: java.lang.Exception) {
+            showMessage(context, error.message.toString());
+        }
     }
 }

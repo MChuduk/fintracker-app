@@ -52,4 +52,12 @@ class Repository {
     suspend fun getAllTransactionCategories(token: String, snapshotId: Int): Response<MutableList<TransactionCategoryModel>> {
         return RetrofitInstance.api.getAllTransactionCategories(token, snapshotId);
     }
+
+    suspend fun createTransaction(token: String, model: TransactionModel): Response<TransactionModel> {
+        return RetrofitInstance.api.createTransaction(token, model);
+    }
+
+    suspend fun getAllTransactions(token: String, snapshotId: Int): Response<MutableList<TransactionModel>> {
+        return RetrofitInstance.api.getAllTransactions(token, snapshotId);
+    }
 }

@@ -1,8 +1,6 @@
 package com.example.fintracker_app.screens.snapshots
 
-import android.app.ProgressDialog
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
@@ -11,15 +9,10 @@ import android.view.View
 import androidx.lifecycle.lifecycleScope
 import com.example.fintracker_app.R
 import com.example.fintracker_app.adapters.SnapshotsAdapter
-import com.example.fintracker_app.adapters.WalletsAdapter
 import com.example.fintracker_app.appPreferencesName
 import com.example.fintracker_app.model.SnapshotModel
 import com.example.fintracker_app.screens.base.ModelListActivity
-import com.example.fintracker_app.screens.transactions.TransactionsUpsertActivity
-import com.example.fintracker_app.services.SnapshotsService
-import com.example.fintracker_app.services.TransactionCategoriesService
-import com.example.fintracker_app.services.WalletsService
-import com.example.fintracker_app.services.showMessage
+import com.example.fintracker_app.services.*
 import kotlinx.coroutines.launch
 
 class SnapshotsListActivity : ModelListActivity<SnapshotModel>() {
@@ -28,6 +21,7 @@ class SnapshotsListActivity : ModelListActivity<SnapshotModel>() {
 
     private lateinit var walletsService: WalletsService;
     private lateinit var transactionCategoriesService: TransactionCategoriesService;
+    private lateinit var transactionsService: TransactionsService;
     private lateinit var service: SnapshotsService;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,6 +68,7 @@ class SnapshotsListActivity : ModelListActivity<SnapshotModel>() {
 
             walletsService.attachAllToSnapshot(token);
             transactionCategoriesService.attachAllToSnapshot(token);
+            transactionsService.attachAllToSnapshot(token);
         }
     }
 
@@ -97,6 +92,7 @@ class SnapshotsListActivity : ModelListActivity<SnapshotModel>() {
 
             walletsService.applySnapshot(token!!, snapshot.id);
             transactionCategoriesService.applySnapshot(token, snapshot.id);
+            transactionsService.applySnapshot(token, snapshot.id);
 
             showMessage(applicationContext, "Снапшот от ${snapshot.created_at} успешно загружен");
         }
@@ -105,6 +101,7 @@ class SnapshotsListActivity : ModelListActivity<SnapshotModel>() {
     private fun initServices() {
         walletsService = WalletsService(applicationContext);
         transactionCategoriesService = TransactionCategoriesService(applicationContext);
+        transactionsService = TransactionsService(applicationContext);
         service = SnapshotsService(applicationContext);
         preferences = getSharedPreferences(appPreferencesName, Context.MODE_PRIVATE);
     }

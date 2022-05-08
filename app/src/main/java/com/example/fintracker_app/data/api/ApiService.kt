@@ -39,4 +39,10 @@ interface ApiService {
 
     @GET("api/transaction/categories?")
     suspend fun getAllTransactionCategories(@Header("Authorization") token: String, @Query("snapshot_id") snapshotId: Int): Response<MutableList<TransactionCategoryModel>>
+
+    @POST("api/transactions")
+    suspend fun createTransaction(@Header("Authorization") token: String, @Body model: TransactionModel): Response<TransactionModel>
+
+    @GET("api/transactions?")
+    suspend fun getAllTransactions(@Header("Authorization") token: String, @Query("snapshot_id") snapshotId: Int): Response<MutableList<TransactionModel>>
 }
