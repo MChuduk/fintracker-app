@@ -16,15 +16,19 @@ import com.example.fintracker_app.screens.transaction_categories.TransactionCate
 import com.example.fintracker_app.screens.transactions.TransactionsListActivity
 
 import com.example.fintracker_app.screens.wallets.WalletsListActivity
+import com.example.fintracker_app.services.database.DatabaseHelper
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var textViewUserProfile: TextView;
 
+    private lateinit var dbHelper: DatabaseHelper;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initServices();
         findViews();
         setUserInfo();
     }
@@ -79,6 +83,10 @@ class MainActivity : AppCompatActivity() {
         editor.remove("UserToken")
         editor.apply();
 
+        dbHelper.clearTableWallets();
+        dbHelper.clearTableTransactionCategories();
+        dbHelper.clearTableTransactions();
+
         val intent = Intent(applicationContext, SignInActivity::class.java);
         startActivity(intent);
     }
@@ -87,6 +95,10 @@ class MainActivity : AppCompatActivity() {
         val preferences = getSharedPreferences(appPreferencesName, Context.MODE_PRIVATE);
         val userEmail = preferences.getString("UserEmail", "Undefined");
         textViewUserProfile.text = "Пользователь: $userEmail";
+    }
+
+    private fun initServices() {
+        dbHelper = DatabaseHelper(applicationContext);
     }
 
     private fun findViews() {

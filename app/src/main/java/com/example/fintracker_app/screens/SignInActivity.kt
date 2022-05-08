@@ -14,6 +14,8 @@ import com.example.fintracker_app.appPreferencesName
 import com.example.fintracker_app.data.repository.Repository
 import com.example.fintracker_app.model.ErrorModel
 import com.example.fintracker_app.services.CurrencyService
+import com.example.fintracker_app.services.SnapshotsService
+import com.example.fintracker_app.services.WalletsService
 import com.google.gson.Gson
 import kotlinx.coroutines.launch
 
@@ -23,6 +25,8 @@ class SignInActivity : AppCompatActivity() {
     private lateinit var password: EditText;
 
     private lateinit var preferences: SharedPreferences;
+    private lateinit var snapshotsService: SnapshotsService;
+    private lateinit var walletsService: WalletsService;
     private lateinit var currencyService: CurrencyService;
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +60,7 @@ class SignInActivity : AppCompatActivity() {
                     editor.putString("UserToken", data.token);
                     editor.apply();
 
+                    applyLatestSnapshot();
                     currencyService.updateExchangeRates();
 
                     val intent = Intent(applicationContext, MainActivity::class.java);
@@ -74,12 +79,24 @@ class SignInActivity : AppCompatActivity() {
         startActivity(intent);
     }
 
+    private fun applyLatestSnapshot() {
+        lifecycleScope.launch {
+            val token = preferences.getString("UserToken", "Undefined");
+            val snapshot = snapshotsService.getLatest(token!!);
+            if(snapshot != null) {
+                walletsService.applySnapshot(token, snapshot.id);
+            }
+        }
+    }
+
     private fun findViews() {
         email = findViewById(R.id.editTextEmail);
         password = findViewById(R.id.editTextPassword);
     }
 
     private fun initServices() {
+        snapshotsService = SnapshotsService(applicationContext);
+        walletsService = WalletsService(applicationContext);
         currencyService = CurrencyService(applicationContext);
     }
 

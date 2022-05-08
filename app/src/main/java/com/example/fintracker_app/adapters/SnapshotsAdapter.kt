@@ -1,7 +1,5 @@
 package com.example.fintracker_app.adapters
 
-import android.content.Context
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fintracker_app.R
 import com.example.fintracker_app.model.SnapshotModel
-import com.example.fintracker_app.model.WalletModel
-import com.example.fintracker_app.services.CurrencyService
-import com.example.fintracker_app.services.TransactionsService
-import com.example.fintracker_app.services.WalletsService
 
-class SnapshotsAdapter(context: Context, private var items: List<SnapshotModel>) :
+class SnapshotsAdapter(private var items: List<SnapshotModel>) :
     RecyclerView.Adapter<SnapshotsAdapter.MyViewHolder>() {
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

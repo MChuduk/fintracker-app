@@ -3,15 +3,18 @@ package com.example.fintracker_app.services
 import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
-import com.example.fintracker_app.model.TransactionTypeModel
+import com.example.fintracker_app.data.repository.Repository
+import com.example.fintracker_app.model.ErrorModel
 import com.example.fintracker_app.model.WalletModel
 import com.example.fintracker_app.services.database.*
+import com.google.gson.Gson
 
 class WalletsService(val context: Context) {
 
     private val dbHelper = DatabaseHelper(context);
 
     private val transactionsService: TransactionsService = TransactionsService(context);
+    private val snapshotService: SnapshotsService = SnapshotsService(context);
 
     fun getAll(): MutableList<WalletModel> {
         val db = dbHelper.readableDatabase;
@@ -144,5 +147,35 @@ class WalletsService(val context: Context) {
         val incomeAmount = transactionsService.getIncomeAmount(walletId);
         val spendingAmount = transactionsService.getSpendingAmount(walletId);
         return incomeAmount - spendingAmount;
+    }
+
+    suspend fun attachAllToSnapshot(token: String) {
+        try {
+            val repo = Repository()
+            val models = getAll();
+            for(model in models) {
+                repo.createWallet("Bearer $token", model);
+            }
+        } catch (error: java.lang.Exception) {
+            showMessage(context, error.message.toString());
+        }
+    }
+
+    suspend fun applySnapshot(token: String, snapshotId: Int) {
+        try {
+            val snapshot = snapshotService.getOne(token, snapshotId);
+            if(snapshot != null) {
+                dbHelper.clearTableWallets();
+
+                val repo = Repository();
+                val models = repo.getAllWallets("Bearer $token", snapshot.id);
+                for(model in models) {
+                    println("TEST")
+                    create(model.row_id, model.name, model.currency_id, snapshot.user_id);
+                }
+            }
+        } catch (error: java.lang.Exception) {
+            showMessage(context, error.message.toString());
+        }
     }
 }

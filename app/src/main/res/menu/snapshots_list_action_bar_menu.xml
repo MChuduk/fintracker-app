@@ -8,6 +8,9 @@
         android:id="@+id/DeleteItem"
         android:title="Удалить" />
     <item
+        android:id="@+id/DownloadItem"
+        android:title="Загрузить" />
+    <item
         android:id="@+id/BackItem"
         android:title="Назад" />
 </menu>

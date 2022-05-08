@@ -28,6 +28,18 @@ class DatabaseHelper(context: Context): SQLiteOpenHelper(context, dbName, null, 
         db.setForeignKeyConstraintsEnabled(true)
     }
 
+    fun clearTableWallets() {
+        writableDatabase.execSQL("DELETE FROM $TABLE_WALLETS");
+    }
+
+    fun clearTableTransactionCategories() {
+        writableDatabase.execSQL("DELETE FROM $TABLE_TRANSACTION_CATEGORIES");
+    }
+
+    fun clearTableTransactions() {
+        writableDatabase.execSQL("DELETE FROM $TABLE_TRANSACTIONS");
+    }
+
     private fun createTableCurrency(db: SQLiteDatabase) {
         db.execSQL("CREATE TABLE IF NOT EXISTS $TABLE_CURRENCY (" +
                 "$CURRENCY_ID INTEGER PRIMARY KEY, " +
