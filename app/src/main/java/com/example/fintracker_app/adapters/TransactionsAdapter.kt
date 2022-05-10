@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fintracker_app.R
 import com.example.fintracker_app.model.TransactionModel
 import com.example.fintracker_app.services.CurrencyService
+import com.example.fintracker_app.services.TransactionCategoriesService
 import com.example.fintracker_app.services.WalletsService
 
 class TransactionsAdapter(context: Context, private var items: List<TransactionModel>) :
@@ -18,6 +19,7 @@ class TransactionsAdapter(context: Context, private var items: List<TransactionM
 
     private val walletsService = WalletsService(context);
     private val currencyService = CurrencyService(context);
+    private val categoriesService = TransactionCategoriesService(context);
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var textViewTransactionNote: TextView? = null;
@@ -43,6 +45,7 @@ class TransactionsAdapter(context: Context, private var items: List<TransactionM
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val wallet = walletsService.findById(items[position].wallet_id);
         val currency = currencyService.findById(wallet?.currency_id!!);
+        val category = categoriesService.findById(items[position].category_id);
 
         holder.textViewTransactionNote?.text = items[position].note;
 
@@ -52,7 +55,7 @@ class TransactionsAdapter(context: Context, private var items: List<TransactionM
         holder.textViewTransactionAmount?.setTextColor(amountTextColor);
         holder.textViewTransactionAmount?.text = "${if (type == 1) '+' else '-'}$amount ${currency?.name}";
 
-        holder.textViewWalletName?.text = "${items[position].date} | ${wallet.name}";
+        holder.textViewWalletName?.text = "${items[position].date} | ${category?.name} | ${wallet.name}";
 
         holder.imageViewRepeat?.visibility = if (items[position].repeat == 1) View.VISIBLE else View.INVISIBLE;
     }

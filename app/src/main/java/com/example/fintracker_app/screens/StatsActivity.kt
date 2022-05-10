@@ -7,6 +7,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
 import com.example.fintracker_app.R
 import com.example.fintracker_app.model.TransactionCollection
 import com.example.fintracker_app.model.TransactionModel
@@ -14,6 +15,7 @@ import com.example.fintracker_app.services.*
 import com.razerdp.widget.animatedpieview.AnimatedPieView
 import com.razerdp.widget.animatedpieview.AnimatedPieViewConfig
 import com.razerdp.widget.animatedpieview.data.SimplePieInfo
+import kotlinx.coroutines.launch
 
 class StatsActivity : AppCompatActivity() {
 
@@ -53,11 +55,11 @@ class StatsActivity : AppCompatActivity() {
         sortedItems = sortByTransactionType(typeId!!, sortedItems)
 
         val totalAmount = getTotalTransactionAmount(sortedItems);
-        totalTransactionAmount.text = "Общая сумма транзакий: ${String.format("%.1f", totalAmount)} USD";
+        totalTransactionAmount.text = "Общая сумма транзакий: ${String.format("%.1f", totalAmount)} BYN";
         val maxAmount = getMaxTransactionAmount(sortedItems);
-        maxTransactionAmount.text = "Максимальная сумма транзакции: ${String.format("%.1f", maxAmount)} USD"
+        maxTransactionAmount.text = "Максимальная сумма транзакции: ${String.format("%.1f", maxAmount)} BYN"
         val minAmount = getMinTransactionAmount(sortedItems);
-        minTransactionAmount.text = "Минимальная сумма транзакции: ${String.format("%.1f", minAmount)} USD"
+        minTransactionAmount.text = "Минимальная сумма транзакции: ${String.format("%.1f", minAmount)} BYN"
 
         val config = AnimatedPieViewConfig();
         val angle : Float = -90F;
@@ -99,7 +101,7 @@ class StatsActivity : AppCompatActivity() {
             val wallet = walletsService.findById(item.wallet_id);
             val currency = currencyService.findById(wallet!!.currency_id);
             val exchangeRate = currency!!.exchange_rate;
-            amount += item.amount / exchangeRate;
+            amount += item.amount * exchangeRate;
         }
         return amount;
     }
@@ -111,7 +113,7 @@ class StatsActivity : AppCompatActivity() {
             val wallet = walletsService.findById(item.wallet_id);
             val currency = currencyService.findById(wallet!!.currency_id);
             val exchangeRate = currency!!.exchange_rate;
-            val amount = item.amount / exchangeRate;
+            val amount = item.amount * exchangeRate;
             if(amount <= minAmount) {
                 minAmount = amount;
             }
@@ -126,7 +128,7 @@ class StatsActivity : AppCompatActivity() {
             val wallet = walletsService.findById(item.wallet_id);
             val currency = currencyService.findById(wallet!!.currency_id);
             val exchangeRate = currency!!.exchange_rate;
-            val amount = item.amount / exchangeRate;
+            val amount = item.amount * exchangeRate;
             if(amount >= minAmount) {
                 minAmount = amount;
             }

@@ -83,6 +83,7 @@ class SignInActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val token = preferences.getString("UserToken", "Undefined");
             val snapshot = snapshotsService.getLatest(token!!);
+            currencyService.updateExchangeRates();
             if(snapshot != null) {
                 walletsService.applySnapshot(token, snapshot.id);
             }
